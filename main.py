@@ -14,7 +14,6 @@ def input_error(func):
 
 @input_error
 def add():
-    global CONTACTS
     for i in range(3):
         contact = input('Your name (space) your phone: ')
         cont = contact.split(' ')
@@ -22,16 +21,11 @@ def add():
         phone = cont[1]
         if len(name) > 0:
             CONTACTS.update({name: phone})
-        else:
-            CONTACTS = CONTACTS
         ques = input('Do you want to add contact? ')
         if ques == "yes":
             i += 1
             break
     return CONTACTS
-
-
-add = input_error(add)
 
 
 @input_error
@@ -41,32 +35,24 @@ def change():
     cont_n = contact_n.split(' ')
     name = cont_n[0]
     phone_n = cont_n[1]
-    for k in CONTACTS.keys():
+    for k in CONTACTS:
         if name == k:
             CONTACTS[k] = phone_n
     return CONTACTS
 
 
-change = input_error(change)
-
-
 @input_error
-def get_phone():
+def get_phone(user_phone):
     name = input('Username: ')
-    for k in CONTACTS.keys():
-        if name == k:
-            user_phone = CONTACTS.get(k)
-    return user_phone
-
-
-get_phone = input_error(get_phone)
+    if user_phone:
+        for k in CONTACTS:
+            if name == k:
+                user_phone = CONTACTS.get(k)
+            return user_phone
 
 
 def show_all():
     return CONTACTS
-
-
-show_all = input_error(show_all)
 
 
 @input_error
@@ -85,7 +71,7 @@ def main():
             print(get_phone())
         elif request == 'show all':
             print(show_all())
-        elif request == 'good bye' or request == 'close' or request == 'exit':
+        elif request in ('good bye', 'close', 'exit'):
             print('Good bye!')
             gameloop = False
         else:
